@@ -1,0 +1,81 @@
+# project
+PROJ_NAME: 0620_retrain_skeleton_baseline
+
+PHASE: train
+
+DEVICE: 1
+
+DATA:
+  ckpt_path: experiment/ckpt/
+  viz_path: experiment/viz/
+  work_dir: experiment/work_dir/
+  print_log: True
+  log_interval: 50
+
+SEGMENT_FEEDER:
+  class: dataset.MSSLClipFeeder
+  args:
+    data_type: 'skeleton'
+    mode: 'train'
+    remove_bg: False
+    bg_class: 0
+    stride: 4
+    clip_duration: 8
+    seq_duration: 8
+
+VIDEO_FEEDER:
+  class: dataset.MSSLVideoFeeder
+  args:
+    data_type: 'skeleton'
+    mode: 'train'
+
+FRAMEWORK: stage1_extract_feature.Framework
+
+TRAIN:
+  model_mode: 'video'
+  segment_batch_size: 16
+  video_batch_size: 2
+  trainer: stage1_extract_feature.Trainer
+  num_epoch: 80
+  eval_clip_interval: 1
+  eval_video_interval: 1
+  criterion: stage1_extract_feature.loss
+  save_ckpt_epoch: False
+
+TEST:
+  segment_batch_size: 16
+  video_batch_size: 1
+  tester: stage1_extract_feature.Tester
+#  type: 'eval_video'
+  type: 'eval_clip'
+
+DECODER:
+  args:
+    stride: 4
+    duration: 8
+    bg_class: 0
+
+MODEL:
+  class: stage1_extract_feature.models.st_gcn_seq.SeqSTGCN
+  args:
+    num_classes: 61
+    in_channels: 3
+    dropout: 0.5
+    edge_importance_weighting: True
+    temporal_kernel_size: 9
+    graph_args:
+      layout: 'mediapipe'
+      strategy: 'spatial'
+  weights: './trained_model/skeleton.pth'
+
+OPTIMIZER:
+  optimizer: Adam
+  base_lr: 0.0005
+  step: [40, 60]
+  weight_decay: 0.00001
+  start_epoch: 1
+  nesterov: False
+
+MISC:
+  num_workers: 0
+  random_seed: 1234

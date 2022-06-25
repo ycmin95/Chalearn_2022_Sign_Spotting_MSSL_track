@@ -1,0 +1,67 @@
+# project
+PROJ_NAME: 0623_final_old_feats_rd6688
+
+PHASE: train
+
+DEVICE: 0
+
+DATA:
+  ckpt_path: experiment/ckpt/
+  viz_path: experiment/viz/
+  work_dir: experiment/work_dir/
+  print_log: true
+  log_interval: 100
+
+VIDEO_FEEDER:
+  class: dataset.MSSLFeatureClipFeeder
+  args:
+    data_type: 'fusion_feature'
+#    feature_dir: 'features'
+    feature_dir: 'features_new'
+    mode: 'train'
+#    final_flag: False
+    final_flag: True
+
+FRAMEWORK: stage2_sign_spotting.Framework
+
+TRAIN:
+  model_mode: 'video'
+  video_batch_size: 2
+  trainer: stage2_sign_spotting.DetectorTrainerModel
+  num_epoch: 80
+  eval_video_interval: 1
+  criterion: stage2_sign_spotting.loss
+  save_ckpt_epoch: False
+
+TEST:
+  video_batch_size: 1
+  tester: stage2_sign_spotting.Tester
+  type: ''
+
+DECODER:
+  args:
+    stride: 4
+    duration: 8
+    bg_class: 0
+
+MODEL:
+  class: stage2_sign_spotting.models.Detector
+  args:
+    modality: [0,1,2,3]
+    input_dim: 512
+    hidden_dim: 512
+    num_classes: 62
+    dropout: 0.3
+  weights: ''
+
+OPTIMIZER:
+  optimizer: AdamW
+  base_lr: 0.0001
+  step: [20, 40, 60]
+  weight_decay: 0.005
+  start_epoch: 1
+  nesterov: False
+
+MISC:
+  num_workers: 10
+  random_seed: 6688

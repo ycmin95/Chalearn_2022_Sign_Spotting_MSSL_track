@@ -1,0 +1,74 @@
+# project
+PROJ_NAME: 0621_retrain_flow_baseline
+
+PHASE: test
+
+DEVICE: 2
+
+DATA:
+  ckpt_path: experiment/ckpt/
+  viz_path: experiment/viz/
+  work_dir: experiment/work_dir/
+  print_log: True
+  log_interval: 50
+
+SEGMENT_FEEDER:
+  class: dataset.MSSLClipFeeder
+  args:
+    data_type: 'flow'
+    mode: 'train'
+    remove_bg: False
+    bg_class: 0
+    stride: 4
+    clip_duration: 8
+    seq_duration: 8
+
+VIDEO_FEEDER:
+  class: dataset.MSSLVideoFeeder
+  args:
+    data_type: 'flow'
+    mode: 'train'
+
+FRAMEWORK: stage1_extract_feature.Framework
+
+TRAIN:
+  model_mode: 'video'
+  segment_batch_size: 16
+  video_batch_size: 2
+  trainer: stage1_extract_feature.Trainer
+  num_epoch: 40
+  eval_clip_interval: 1
+  eval_video_interval: 80
+  criterion: stage1_extract_feature.loss
+  save_ckpt_epoch: False
+
+TEST:
+  segment_batch_size: 16
+  video_batch_size: 1
+  tester: stage1_extract_feature.Tester
+  type: 'eval_video'
+
+DECODER:
+  args:
+    stride: 4
+    duration: 8
+    bg_class: 0
+
+MODEL:
+  class: stage1_extract_feature.models.fmodel.TModel
+  args:
+    num_classes: 61
+    backbone: i3d
+  weights: './trained_model/flow.pth'
+
+OPTIMIZER:
+  optimizer: AdamW
+  base_lr: 0.0001
+  step: [20, 35]
+  weight_decay: 0.05
+  start_epoch: 1
+  nesterov: False
+
+MISC:
+  num_workers: 10
+  random_seed: 1234
