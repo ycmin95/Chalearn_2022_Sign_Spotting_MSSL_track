@@ -10,9 +10,6 @@ import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
 
-# from lib.baseline.extract_feature.models import resnet
-# from lib.baseline.extract_feature.models import tmodel
-# from lib.baseline.extract_feature.models import st_gcn_seq
 from utils import get_config, import_class
 from utils import RandomState, GpuDataParallel, Optimizer
 

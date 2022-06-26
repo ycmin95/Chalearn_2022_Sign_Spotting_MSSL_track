@@ -3,7 +3,7 @@ PROJ_NAME: 0620_retrain_skeleton_baseline
 
 PHASE: train
 
-DEVICE: 1
+DEVICE: 0
 
 DATA:
   ckpt_path: experiment/ckpt/
@@ -17,7 +17,7 @@ SEGMENT_FEEDER:
   args:
     data_type: 'skeleton'
     mode: 'train'
-    remove_bg: False
+    remove_bg: True
     bg_class: 0
     stride: 4
     clip_duration: 8

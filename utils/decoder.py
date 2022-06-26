@@ -50,8 +50,6 @@ class Decoder(object):
         offset = np.around(offset.cpu().numpy(), 0).astype(int)
         results = np.argmax(preds, axis=-1)
         results[results > 60] = 0
-        # print(results)
-        # print(offset)
         # length = results.shape[0]
         vote = np.zeros((length, num_class))
         for position in results.nonzero()[0]:

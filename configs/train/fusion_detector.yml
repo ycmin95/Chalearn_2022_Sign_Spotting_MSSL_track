@@ -1,5 +1,5 @@
 # project
-PROJ_NAME: 0623_final_old_feats_rd6688
+PROJ_NAME: final_result
 
 PHASE: train
 
@@ -16,8 +16,7 @@ VIDEO_FEEDER:
   class: dataset.MSSLFeatureClipFeeder
   args:
     data_type: 'fusion_feature'
-#    feature_dir: 'features'
-    feature_dir: 'features_new'
+    feature_dir: 'features'
     mode: 'train'
 #    final_flag: False
     final_flag: True

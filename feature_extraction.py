@@ -16,18 +16,6 @@ from stage2_sign_spotting.models import detection_fix
 from evaluator.evaluator import Evaluator
 from evaluator.official_evaluator import evaluate as OffEvaluator
 
-
-def overlap(pred1, idx1, pred2, idx2):
-    try:
-        if np.mean(pred2[1][idx2]) <= np.mean(pred1[1][idx1]) <= np.mean(pred2[2][idx2]):
-            return True
-        if np.mean(pred2[1][idx2]) <= np.mean(pred1[2][idx1]) <= np.mean(pred2[2][idx2]):
-            return True
-    except ValueError:
-        pdb.set_trace()
-    return False
-
-
 if __name__ == "__main__":
     visible_device = 0
     os.environ["CUDA_VISIBLE_DEVICES"] = str(visible_device)
@@ -35,18 +23,13 @@ if __name__ == "__main__":
 
     # video, mask_video, flow, skeleton
     modality = ["video", "mask_video", "flow", "skeleton"]
-    modality_idx = [2]
+    modality_idx = [0, 1, 2, 3]
 
     weights_list = [
         "./trained_model/video.pth",
         "./trained_model/mask_video.pth",
-        # "./trained_model/flow.pth",
         "./trained_model/new_flow.pth",
         "./trained_model/skeleton.pth",
-        # "/home/ycmin/skeleton/Sign_Spotting/experiment/ckpt/0619_retrain_video_baseline/latest_90.39248328207444.pth",
-        # "/home/ycmin/skeleton/Sign_Spotting/experiment/ckpt/0619_retrain_mask_video_baseline/latest_90.0821082926554.pth",
-        # "/home/ycmin/skeleton/Sign_Spotting/experiment/ckpt/0619_retrain_flow_baseline/latest_88.64579510433691.pth",
-        # "/home/ycmin/skeleton/Sign_Spotting/experiment/ckpt/0619_retrain_skeleton_baseline/latest_85.25718800259587.pth",
     ]
 
     module_list = [
@@ -166,7 +149,8 @@ if __name__ == "__main__":
                     decode_with_probs(outputs, start_frame, end_frame, save_path)
                 if not os.path.exists(f"./features_old/{modality[mod_idx]}"):
                     os.makedirs(f"./features_old/{modality[mod_idx]}")
-                np.save(f"./features_old/{modality[mod_idx]}/{video_file_name}.npy", feats[:, :, 0].cpu().detach().numpy())
+                np.save(f"./features_old/{modality[mod_idx]}/{video_file_name}.npy",
+                        feats[:, :, 0].cpu().detach().numpy())
                 split_results = evaluator.generate_labels_start_end_time(recog_result)
                 print(modality[mod_idx], [x[0] for x in groupby(recog_result.astype(int))])
                 results.append([split_results, probs])
@@ -177,16 +161,3 @@ if __name__ == "__main__":
                     pred_pickle_file[video_file_name].append(
                         [item, split_results[1][idx] * 40, split_results[2][idx] * 40]
                     )
-
-        # gt_pkl_path = "./dataset/MSSL_dataset/VALIDATION/MSSL_VAL_SET_GT.pkl"
-        # gt_pkl_path = os.path.abspath(gt_pkl_path)
-        # if not os.path.exists(f"{save_root}/ref"):
-        #     os.makedirs(f"{save_root}/ref")
-        # if not os.path.exists(f"{save_root}/res"):
-        #     os.makedirs(f"{save_root}/res")
-        # with open(f"{save_root}/res/predictions.pkl", 'wb') as handle:
-        #     pickle.dump(pred_pickle_file, handle, protocol=4)
-        # if not os.path.exists(f"{save_root}/ref/ground_truth.pkl"):
-        #     os.system(f"ln -s {gt_pkl_path} {save_root}/ref/ground_truth.pkl")
-        # print("Official evaluation results: ")
-        # official_evaluator(folder_in=save_root, folder_out=save_root)

@@ -5,7 +5,6 @@ import tqdm
 import itertools
 import pickle
 import numpy as np
-import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
@@ -13,8 +12,6 @@ from torch.nn.utils import clip_grad_norm
 
 from utils import import_class, AverageMeter
 from utils.options import get_config
-
-plt.switch_backend('agg')
 
 
 class Tester(object):

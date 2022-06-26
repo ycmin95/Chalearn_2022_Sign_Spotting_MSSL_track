@@ -3,7 +3,7 @@ PROJ_NAME: 0620_retrain_mask_video_baseline
 
 PHASE: test
 
-DEVICE: 2
+DEVICE: 0
 
 DATA:
   ckpt_path: experiment/ckpt/

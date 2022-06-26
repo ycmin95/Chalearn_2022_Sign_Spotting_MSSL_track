@@ -4,41 +4,40 @@ import yaml
 import argparse
 from pprint import pprint
 from functools import wraps
-from easydict import EasyDict as edict
 
 
 def get_parser():
     parser = argparse.ArgumentParser(
-        description='The pytorch implementation for '
+        description='The pytorch implementation for solution of '
                     'ECCV 22 Chalearn Sign Spotting Challenge (track 2: OSLWL).')
     parser.add_argument('--config', default='./config/train/video.yml', type=str,
                         help='to set the parameters')
     parser.add_argument('--device', default=0, type=str,
-                        help='supplementary info of the task, will be appended to project name')
+                        help='the indexes of GPUs for training or testing')
     parser.add_argument('--proj-name', default='', type=str,
-                        help='supplementary info of the task, will be appended to project name')
+                        help='the work folder for storing results')
     parser.add_argument('--phase', default='', type=str,
-                        help='supplementary info of the task, will be appended to project name')
+                        help='can be train or test')
     parser.add_argument('--framework', default='', type=str,
-                        help='supplementary info of the task, will be appended to project name')
+                        help='the initialization of model, weight and optimization')
     parser.add_argument('--data', default=dict(),
-                        help='data loader will be used')
+                        help='args about the model, log save')
     parser.add_argument('--segment-feeder', default=dict(),
-                        help='data loader will be used')
+                        help='args about the clip-wise dataloader')
     parser.add_argument('--video-feeder', default=dict(),
-                        help='data loader will be used')
+                        help='args about the video-wise dataloader')
     parser.add_argument('--train', default=dict(),
-                        help='data loader will be used')
+                        help='args about the training process')
     parser.add_argument('--test', default=dict(),
-                        help='data loader will be used')
+                        help='args about the training process')
     parser.add_argument('--decoder', default=dict(),
-                        help='data loader will be used')
+                        help='args about the decoder')
     parser.add_argument('--model', default=dict(),
-                        help='data loader will be used')
+                        help='args about the model')
     parser.add_argument('--optimizer', default=dict(),
-                        help='data loader will be used')
+                        help='args about the optimizer')
     parser.add_argument('--misc', default=dict(),
-                        help='data loader will be used')
+                        help='other useful configuration')
     return parser
 
 

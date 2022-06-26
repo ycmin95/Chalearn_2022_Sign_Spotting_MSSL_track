@@ -3,7 +3,7 @@ PROJ_NAME: 0621_retrain_flow_baseline
 
 PHASE: train
 
-DEVICE: 2
+DEVICE: 0
 
 DATA:
   ckpt_path: experiment/ckpt/
@@ -17,7 +17,7 @@ SEGMENT_FEEDER:
   args:
     data_type: 'flow'
     mode: 'train'
-    remove_bg: False
+    remove_bg: True
     bg_class: 0
     stride: 4
     clip_duration: 8

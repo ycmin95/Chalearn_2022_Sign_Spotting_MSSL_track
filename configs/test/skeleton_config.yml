@@ -3,7 +3,7 @@ PROJ_NAME: 0620_retrain_skeleton_baseline
 
 PHASE: test
 
-DEVICE: 1
+DEVICE: 0
 
 DATA:
   ckpt_path: experiment/ckpt/

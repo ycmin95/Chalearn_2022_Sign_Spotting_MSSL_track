@@ -3,7 +3,7 @@ PROJ_NAME: 0620_retrain_video_baseline
 
 PHASE: train
 
-DEVICE: 1
+DEVICE: 0
 
 DATA:
   ckpt_path: experiment/ckpt/
