@@ -49,7 +49,7 @@ The main desired directory tree is expected as follows,
 │                 ├── clipwise_label
 │                 └── framewise_label
 ├── weights 
-│       ├──final_model.pth
+│        ├──final_model.pth
 └── submission
          ├── ref
          │   └── ground_truth.pk
@@ -129,7 +129,7 @@ python main.py --config ./configs/train/skeleton_config.yml
 python main.py --config ./configs/train/skeleton_config.yml
 ```
 
-Then select the best (validation) or the last (test) weight for the next round training, by modifying the `remove_bg=False` and `weights=<path_to_best_weight>`in the config files, and run the above command again.
+Then select the best (validation) or the last (test) weight for the next round training, by modifying the `remove_bg=False` and `weights=<path_to_best_weight>`in the config files, and **run the above command again**.
 
 For the feature extraction, modify the weight path in `feature_extraction`, and run
 ```bash
