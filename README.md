@@ -52,7 +52,7 @@ The main desired directory tree is expected as follows,
 │        ├──final_model.pth
 └── submission
          ├── ref
-         │   └── ground_truth.pk
+         │   └── ground_truth.pkl
          └── res
               └── predictions.pkl
 ```
@@ -63,7 +63,7 @@ python generate_predictions
 ``` 
 The final prediction can be found in `submission/prediction_validate/res/predictions.pkl`.
 
-For training the final spotting model with the extracted features, simply run:
+For training the final spotting model with the extracted features, simply run (it takes about 10 minutes):
 ```
 python main.py --config ./configs/train/fusion_detector.yml
 ```
