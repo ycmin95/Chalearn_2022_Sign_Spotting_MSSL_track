@@ -1,6 +1,9 @@
 # This repo holds codes of the solution for the [Sign Spotting Challenge](https://chalearnlap.cvc.uab.cat/challenge/49/description/) at ECCV (Multi-Shot Supervised Learning track)
 Our team ranked 3rd in the final test phase. 
 
+Team leader: Xilin Chen 
+
+Team member: Yuecong Min, [Peiqi Jiao](https://github.com/Page-Jiao), [Aiming Hao](https://github.com/hamcoder)
 ## Reproduce Result and Conduct Relevant Experiments
 We produce the extracted features from multuple modalities for sign spotting, which can be trained in ten minutes and achieve acceptable performance. To reproduce the result, you need:
 
@@ -10,7 +13,7 @@ Our solution is based on the basic opencv and pytorch and provide requirements f
 conda create --name <env> --file requirements.txt
 ```
  
-The [extracted features](https://drive.google.com/file/d/1fJGWMbelVOy5Em-dxa6E3mHxXQpH_7OU/view?usp=sharing) and the [trained model](https://drive.google.com/file/d/1gSf3MNYrmS-n4dwtooO9TNakKc7Er8dG/view?usp=sharing) can be downloaded from Google Drive. After download the extracted features, unzip them in to the dataset folder:
+The [extracted features](https://drive.google.com/file/d/1fJGWMbelVOy5Em-dxa6E3mHxXQpH_7OU/view?usp=sharing) and the [trained model](https://drive.google.com/file/d/1gSf3MNYrmS-n4dwtooO9TNakKc7Er8dG/view?usp=sharing) can be downloaded from Google Drive. After download the extracted features, unzip them to the dataset folder:
 ```bash
 unzip extracted features.zip -d ./dataset/
 ```
@@ -59,7 +62,7 @@ The main desired directory tree is expected as follows,
 ### 2. Evaluation
 For evaluation with the provided model (./final_model.pth), simply run:
 ```
-python generate_predictions
+python generate_predictions.py
 ``` 
 The final prediction can be found in `submission/prediction_validate/res/predictions.pkl`.
 
@@ -136,10 +139,6 @@ For the feature extraction, modify the weight path in `feature_extraction`, and 
 python feature_extraction.py
 ``` 
 which will generate feats as step 1 shown.
-
-Team leader: Xilin Chen 
-
-Team member: Yuecong Min, [Peiqi Jiao](https://github.com/Page-Jiao), [Aiming Hao](https://github.com/hamcoder)
 
 #### Relevant Repos
 [I3D code and pretrained model](https://github.com/Tushar-N/pytorch-resnet3d)   
