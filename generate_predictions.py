@@ -2,6 +2,7 @@ import os
 import pdb
 import glob
 import torch
+import pickle
 import numpy as np
 from tqdm import tqdm
 from itertools import groupby
@@ -160,8 +161,6 @@ if __name__ == "__main__":
                 )
 
     if split in ['train', 'valid']:
-        import pickle
-
         if split == 'train':
             gt_pkl_path = "./dataset/MSSL_dataset/TRAIN/MSSL_TRAIN_SET_GT.pkl"
         if split == 'valid':
@@ -178,3 +177,8 @@ if __name__ == "__main__":
         os.system(f"ln -s {gt_pkl_path} {save_root}/ref/ground_truth.pkl")
         print("Official evaluation results: ")
         official_evaluator(folder_in=save_root, folder_out=save_root)
+    else:
+        if not os.path.exists(f"{save_root}/res"):
+            os.makedirs(f"{save_root}/res")
+        with open(f"{save_root}/res/predictions.pkl", 'wb') as handle:
+            pickle.dump(pred_pickle_file, handle, protocol=4)
